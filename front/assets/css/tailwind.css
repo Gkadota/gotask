@@ -1,0 +1,27 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+
+.body-bg {
+    background-color: #082f9c;
+    background-image: linear-gradient(315deg, #082f9c 0%, #8094e4 74%);
+}
+
+
+.btn-primary {
+    @apply bg-primary hover:bg-secondary-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200 disabled:bg-secondary-100 disabled:cursor-not-allowed;
+}
+
+.btn {
+    @apply rounded-md py-2 px-3 uppercase text-xs font-bold cursor-pointer tracking-wider;
+}
+
+.side-nav-btn {
+    @apply px-4 py-2 font-bold text-gray-200  hover:bg-blue-400 rounded-md transition-colors ease-out duration-200;
+}
+
+
+

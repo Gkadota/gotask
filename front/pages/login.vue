@@ -7,8 +7,8 @@ definePageMeta({
 })
 
 const form = reactive({
-    email: 'johndoe@gmail.com',
-    password: 'password'
+    email: '',
+    password: ''
 });
 
 const errorInput = reactive({

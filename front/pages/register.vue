@@ -7,11 +7,11 @@ definePageMeta({
 })
 
 const form = reactive({
-  first_name: 'mich',
-  last_name: 'asombrado',
-  email: 'mich@gmail.com',
-  password: 'password',
-  password_confirmation: 'password',
+  first_name: '',
+  last_name: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
 });
 
 const errorInput = reactive({
@@ -26,13 +26,17 @@ const authStore = useAuthStore();
 async function registerHandler() {
 
   try {
-    let {error } = await authStore.register(form);
+    let {data, error } = await authStore.register(form);
 
     if (error?.value) {
       throw error;
+    } 
+
+    if (data.value) {
+      alert('successfully registered');
+      navigateTo('/');
     }
 
-    navigateTo('/');
 
   } catch (err) {
     const errorMsgs = useGetErrors(err);

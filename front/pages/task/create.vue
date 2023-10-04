@@ -56,13 +56,19 @@ async function createTaskHandler() {
 
     form.assignee_id = authStore.user.id;
     form.creator_id = authStore.user.id;
-    let { error } = await taskStore.createTask(form);
+    let { data, error } = await taskStore.createTask(form);
 
     if (error?.value) {
       throw error;
     }
-       taskStore.getTasks();
-    return navigateTo('/task');
+
+    if (data.value) {
+
+      const taskId = data.value.id;
+       await navigateTo(`/task/${taskId}`);
+      taskStore.getTasks();
+    }
+       
 
 
   } catch (err) {

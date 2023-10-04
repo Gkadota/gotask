@@ -9,8 +9,10 @@ export default {
           100: '#dbeafe',
           200: '#bfdbfe',
           600: '#2563eb',
-          700: '#1d4ed8'
-        }
+          700: '#1d4ed8',
+        },
+
+        primaryProfile:'#1560f6'
       }
     },
   },

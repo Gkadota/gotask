@@ -15,6 +15,9 @@ import {
     faCalendar,
     faPlus,
     faCircleNotch,
+    faBarsProgress,
+    faBorderAll,
+    faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
 // This is important, we are going to let Nuxt worry about the CSS
@@ -36,6 +39,9 @@ library.add(
     faCalendar,
     faPlus,
     faCircleNotch,
+    faBarsProgress,
+    faBorderAll,
+    faMagnifyingGlass,
 );
 
 export default defineNuxtPlugin((nuxtApp) => {

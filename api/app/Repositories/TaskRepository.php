@@ -24,7 +24,16 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function getTasks($assigneeId = null)
     {
-        return Task::where('assignee_id', $assigneeId)->get();
+        return Task::where('assignee_id', $assigneeId)
+        ->orderBy('created_at', 'desc')
+        ->get();
+    }
+
+    public function searchTask($assigneeId, $term)
+    {
+        return Task::where('title', 'Like', '%' .  $term . '%')
+            ->where('assignee_id', $assigneeId)
+            ->get();
     }
 
     public function getTasksById($taskId)
@@ -32,8 +41,9 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::with('comments', 'comments.user')
             ->with('assignee')
             ->with('creator')
-            ->orderBy('created_at', 'desc')
             ->find($taskId);
-            
     }
+
+
+    
 }

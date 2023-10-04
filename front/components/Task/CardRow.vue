@@ -19,12 +19,14 @@ function selectTaskHandler() {
 	navigateTo('/task/update');
 }
 
+const isLoading = ref(false);
+
 
 async function deleteTaskHandler() {
 
 	if (!confirm('Are you sure?')) return false;
 
-
+	isLoading.value = true;
 	try {
 
 		const { data, error } = await taskStore.deleteTask(props.taskId);
@@ -38,14 +40,22 @@ async function deleteTaskHandler() {
 			await taskStore.getTasks();
 		}
 
+		isLoading.value = false;
+
 	} catch (error) {
+		isLoading.value = false;
 		alert('Something Went wrong please try again');
 	}
 }
 
 </script>
 <template>
-	<tr class="bg-white text-gray-500 shadow-md ">
+	<tr v-if="isLoading" class="bg-white text-gray-500 shadow-md">
+		<td colspan="6" class="flex-1 py-8 rounded-md">
+			<span class="justify-center flex" ><font-awesome-icon class="animate-spin"  icon="fa-solid fa-circle-notch" /></span>
+		</td>
+	</tr>
+	<tr v-else class="bg-white text-gray-500 shadow-md ">
 		<td class="p-4">
 			<div class="flex align-items-center">
 

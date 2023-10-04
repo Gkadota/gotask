@@ -28,7 +28,7 @@ const statusList = ref({
   WONT_DO: 'bg-orange-400',
 });
 const prioClass = computed(() => ([prioList.value[task.value.priority]]));
-const statusClass = computed(() => ([statusList.value[task.value.status.replace(" ", '_')]]));
+const statusClass = computed(() => ([statusList.value[task.value.status?.replace(" ", '_')]]));
 const nameInitial = computed(() => task.value.assignee.first_name.substring(0, 1).toUpperCase())
 
 

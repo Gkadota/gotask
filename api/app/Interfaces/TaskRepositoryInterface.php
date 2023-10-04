@@ -11,4 +11,6 @@ interface TaskRepositoryInterface {
     public function getTasks($assigneeId);
 
     public function getTasksById($taskId);
+
+    public function searchTask($assigneeId, $term);
 }

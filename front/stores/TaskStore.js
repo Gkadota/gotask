@@ -9,18 +9,23 @@ const STATUS = {
     wont_do: "WON'T DO",
 };
 
+const PRIORITY = {
+    low: "LOW",
+    medium: "MEDIUM",
+    high: "HIGH",
+};
+
 export const useTaskStore = defineStore("taskStore", {
     
     state: () => ({
         tasks: reactive([]),
         isLoading: false,
         selectedTaskId:null,
+        isTaskLoaded:false,
     }),
 
     getters: {
-        isTaskLoaded() {
-            return Object.keys(this.tasks || {}).length > 0;
-        },
+    
 
         getOpen() {
             return this.tasks?.filter((t) => t.status === STATUS.open);
@@ -40,6 +45,18 @@ export const useTaskStore = defineStore("taskStore", {
             return this.tasks?.filter((t) => t.status === STATUS.wont_do);
         },
 
+        getLowPriority() {
+            return this.tasks?.filter((t) => t.priority === PRIORITY.low);
+        },
+
+        getMediumPriority() {
+            return this.tasks?.filter((t) => t.priority === PRIORITY.medium);
+        },
+
+        getHighPriority() {
+            return this.tasks?.filter((t) => t.priority === PRIORITY.high);
+        },
+
         selectTaskById() {
             return this.tasks?.filter((t) => t.id === this.selectedTaskId);
         },
@@ -52,13 +69,30 @@ export const useTaskStore = defineStore("taskStore", {
             this.isLoading = true;
             const authStore = useAuthStore();
             let { data, error } = await useApiFetch("/api/tasks", {
-                query: { assignee_id: authStore.user?.id },
+                query: { 
+                    assignee_id: authStore.user?.id,
+                 },
             });
 
-            this.tasks = data.value;
+            if (data.value) {
+                this.tasks = data.value;
+                this.isTaskLoaded = true;
+            }
             this.isLoading = false;
         },
 
+
+        async searchTask(searchTerm) {
+            const authStore = useAuthStore();
+            let { data, error } = await useApiFetch("/api/tasks", {
+                query: { 
+                    term: searchTerm,
+                    assignee_id: authStore.user?.id,
+                 },
+            });
+
+            this.tasks = data.value;
+        },
         /**
          * Get a a specific task resource using it's id
          * @param {Number} taskId 

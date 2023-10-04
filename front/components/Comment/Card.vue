@@ -38,7 +38,6 @@ async function deleteCommentHandler() {
     isLoading.value = false;
 
   } catch (error) {
-    console.log(error);
     isLoading.value = false;
     alert('Something Went wrong please try again');
   }

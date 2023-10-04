@@ -1,5 +1,4 @@
 <script  setup>
-import { storeToRefs } from "pinia";
 import { useAuthStore } from "~/stores/AuthStore";
 import { useTaskStore } from "~/stores/TaskStore";
 
@@ -39,6 +38,7 @@ const form = reactive({
   assignee_id: task?.assignee_id,
   creator_id: task?.creator_id,
   priority: task?.priority,
+  id: task?.id,
 });
 
 
@@ -60,7 +60,7 @@ async function updateTaskHandler() {
 
     form.assignee_id = authStore.user.id;
     form.creator_id = authStore.user.id;
-    let { data, error } = await taskStore.createTask(form);
+    let { data, error } = await taskStore.updateTask(form);
 
     if (error?.value) {
       throw error;

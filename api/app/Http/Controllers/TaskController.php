@@ -31,7 +31,11 @@ class TaskController extends Controller
      */
     public function list(ShowTaskRequest $request)
     {
-        $tasks =  $this->taskRepo->getTasks($request->assignee_id);
+        if($request->term) {
+            $tasks = $this->taskRepo->searchTask($request->assignee_id, $request->term);
+        } else {
+            $tasks =  $this->taskRepo->getTasks($request->assignee_id);
+        }
         return response()->json($tasks);
     }
 
@@ -62,7 +66,16 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request)
     {
 
-        $isTaskUpdated = $this->taskRepo->updateTask($request->taskId, $request->tasks);
+        $isTaskUpdated    =  $this->taskRepo->updateTask($request->id, [
+            'title'       => $request->title,
+            'description' => $request->description,
+            'due_date'    => $request->due_date,
+            'assignee_id' => $request->assignee_id,
+            'creator_id'  => $request->creator_id,
+            'priority'    => $request->priority,
+            'status'      => $request->status,
+            'category'    => $request->category,
+        ]);
         return response()->json(['success' => (bool) $isTaskUpdated]);
     }
 

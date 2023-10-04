@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useTaskStore } from "./TaskStore";
 
 export const useAuthStore = defineStore("authStore", {
     state: () => ({
@@ -18,6 +19,7 @@ export const useAuthStore = defineStore("authStore", {
         },
 
         async fetchUser() {
+            this.isLoading = true;
             let { data, error } = await useApiFetch("/api/user");
 
             if (error.value) {
@@ -25,7 +27,7 @@ export const useAuthStore = defineStore("authStore", {
             }
 
             this.user = data.value;
-
+            this.isLoading = false;
             return {data};
         },
 
@@ -49,24 +51,29 @@ export const useAuthStore = defineStore("authStore", {
         },
  
         async logout() {
-
+            this.isLoading = true;
             let {data, error} = await useApiFetch("/logout", {method: "POST"});
             
             if (error.value) return {error};
+
+            const taskStore = useTaskStore();
+            taskStore.$reset()
             this.user = {};
+            this.isLoading = false;
             return {data};
         },
 
         async register(userInfo) {
+            this.isLoading = true;
             await this.getCookie();
-            let {data, error} = await useApiFetch("/register", {
+            let response = await useApiFetch("/register", {
                 method: "POST",
                 body: userInfo
             });
 
-            if (error.value) return {error};
-
-            console.log('register', data);
+            this.isLoading = false;
+        
+            return response;
         },
 
         
